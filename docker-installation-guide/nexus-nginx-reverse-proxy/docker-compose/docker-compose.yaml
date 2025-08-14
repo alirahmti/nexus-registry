@@ -1,0 +1,21 @@
+version: '3.3'
+services:
+  nexus:
+    image: sonatype/nexus3:latest
+    container_name: nexus
+    ports:
+      - "8081:8081"
+      - "5000:5000"
+    volumes:
+      - nexus-data:/nexus-data
+    environment:
+      - INSTALL4J_ADD_VM_PARAMS=-Xms1200m -Xmx1200m -XX:MaxDirectMemorySize=2g -Djava.util.prefs.userRoot=/nexus-data/javaprefs
+    restart: unless-stopped
+    networks:
+      - registry-network
+volumes:
+  nexus-data:
+    driver: local
+networks:
+  registry-network:
+    driver: bridge
